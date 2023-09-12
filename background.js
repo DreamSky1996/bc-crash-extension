@@ -5,11 +5,6 @@ chrome.runtime.onMessage.addListener( data => {
 });
 
 const notify = message => {
-	chrome.storage.local.get( ['notifyCount'], data => {
-		let value = data.notifyCount || 0;
-		chrome.storage.local.set({ 'notifyCount': Number( value ) + 1 });
-	} );
-
 	return chrome.notifications.create(
 		'',
 		{

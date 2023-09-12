@@ -21,7 +21,6 @@
 					<textarea name="text" id="notify-text" placeholder="Let's notify!"></textarea>
 				</div>
 				<div class=notify-buttons>
-					<p>Total: <span id="notify-count"></span></p>
 
 					<button class="button" id="notify-reset">
 						Reset
@@ -34,11 +33,14 @@
 		</div>
 	</div>
 	<div id="trenball" class="tabcontent">
-		<div style="display: flex; justify-content: space-between;">
-			<p style="padding: 5px;">Amount</p>
-			<input type="number" id="trenball-amount" />
-		</div>
 		<div style="padding: 5px;">
+			<div style="display: flex; justify-content: space-between;">
+				<p>Start/Stop</p>
+				<label class="switch">
+					<input id="trenball_start_stop" type="checkbox" checked>
+					<span class="slider"></span>
+				</label>
+			</div>
 			<div style="display: flex; justify-content: space-between;">
 				<p>Random Bet</p>
 				<label class="switch">
@@ -55,9 +57,6 @@
 				</label>
 			</div>
 			
-		</div>
-		<div>
-			<button id="trenball-apply">Apply</button>
 		</div>
 	</div>
 

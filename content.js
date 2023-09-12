@@ -23,15 +23,15 @@ $(document).ready(function () {
         }
     }
 
-    setInterval(interval, 2000);
+    setInterval(interval, 1000);
 
     function interval() {
         try {
             chrome.storage.local.get(null, data => {
                 // console.log(data);
-                var crash_histroy = JSON.parse(localStorage.getItem('crash_histroy'));
-                if (crash_histroy.length > 0) {
-                    var last_game = crash_histroy[crash_histroy.length - 1]
+                var crash = JSON.parse(localStorage.getItem('crash'));
+                if (crash.histroy.length > 0) {
+                    var last_game = crash.histroy[crash.histroy.length - 1]
                     if (isBetting) {
                         if (bet_gameID == last_game.gameId) {
                             isBetting = false;
@@ -72,8 +72,9 @@ $(document).ready(function () {
                             
                         }
                     }
-                    if (isBetting == false) {
-                        onBet(data, last_game);
+                    if (isBetting == false && data.trenball_start_stop == true) {
+                        
+                        onBet(data, crash.gameId);
                     }
                 }
             });
@@ -83,14 +84,14 @@ $(document).ready(function () {
 
     }
 
-    function onBet(bet_data, last_game) {
+    function onBet(bet_data, gameId) {
 
         switch (bet_data.bet_category) {
             case "classic":
-                onClassicBet(bet_data, last_game);
+                onClassicBet(bet_data, gameId);
                 break;
             case "trenball":
-                onTrenballBet(bet_data, last_game);
+                onTrenballBet(bet_data, gameId);
                 break;
 
             default:
@@ -98,10 +99,9 @@ $(document).ready(function () {
         }
     }
 
-    function onTrenballBet(bet_data, last_game) {
+    function onTrenballBet(bet_data, gameId) {
         const inputlist = document.getElementsByClassName("game-area-group-buttons");
         if (inputlist.length == 1) {
-            console.log(bet_data.trenball_amount);
             const trenball_amount_ctl_btns = inputlist[0].getElementsByTagName("button");
             console.log(trenball_amount_ctl_btns.length);
         }
@@ -117,7 +117,14 @@ $(document).ready(function () {
             }
             const bet_btn = bet_items[index].getElementsByTagName("button")
             bet_btn[0].click();
-            bet_gameID = last_game.gameId + 1;
+            bet_gameID = gameId + 1;
+            console.log(bet_gameID);
+            isBetting = true;
+        } else {
+            is_bull_or_bear = "Bear";
+            const bet_btn = bet_items[0].getElementsByTagName("button")
+            bet_btn[0].click();
+            bet_gameID = gameId + 1;
             console.log(bet_gameID);
             isBetting = true;
         }
