@@ -1,0 +1,56 @@
+{
+    "name": "BC Crash Extension",
+    "version": "1.0",
+    "description": "BC Crash Extension",
+    "manifest_version": 3,
+    "permissions": [
+        "contextMenus",
+        "notifications",
+        "storage",
+        "scripting",
+        "tabs",
+        "activeTab"
+    ],
+    "icons": {
+        "16": "assets/icons/icon-16.png",
+        "32": "assets/icons/icon-32.png",
+        "48": "assets/icons/icon-48.png",
+        "128": "assets/icons/icon-128.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://bcgame.im/game/crash?type=trenball",
+                "https://bcgame.im/game/crash"
+            ],
+            "js": [
+                "jquery.min.js",
+                "content.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "inject.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
+    "action": {
+        "default_title": "BC Crash Extension",
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "assets/icons/icon-16.png",
+            "32": "assets/icons/icon-32.png",
+            "48": "assets/icons/icon-48.png",
+            "128": "assets/icons/icon-128.png"
+        }
+    }
+}

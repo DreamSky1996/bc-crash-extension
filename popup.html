@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="assets/css/popup.css">
+</head>
+
+<body>
+	<div class="tab">
+		<button class="tablinks" id="classic-tab">Classic</button>
+		<button class="tablinks" id="trenball-tab">Trenball</button>
+	</div>
+	<div id="classic" class="tabcontent">
+		<div id="notify-wrapper">
+			<div id="notify-header">
+				<h1>Notify!</h1>
+			</div>
+			<div id="notify-containers">
+				<div class="notify-form">
+					<label for="text">Notification</label>
+					<textarea name="text" id="notify-text" placeholder="Let's notify!"></textarea>
+				</div>
+				<div class=notify-buttons>
+					<p>Total: <span id="notify-count"></span></p>
+
+					<button class="button" id="notify-reset">
+						Reset
+					</button>
+					<button class="button primary" id="notify-button">
+						Notify!
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="trenball" class="tabcontent">
+		<div style="display: flex; justify-content: space-between;">
+			<p style="padding: 5px;">Amount</p>
+			<input type="number" id="trenball-amount" />
+		</div>
+		<div style="padding: 5px;">
+			<div style="display: flex; justify-content: space-between;">
+				<p>Random Bet</p>
+				<label class="switch">
+					<input type="checkbox" checked>
+					<span class="slider"></span>
+				</label>
+			</div>
+			
+			<div style="display: flex; justify-content: space-between;">
+				<p>Random Round</p>
+				<label class="switch">
+					<input type="checkbox">
+					<span class="slider round"></span>
+				</label>
+			</div>
+			
+		</div>
+		<div>
+			<button id="trenball-apply">Apply</button>
+		</div>
+	</div>
+
+	<script src="assets/js/popup.js"></script>
+</body>
+
+</html>
