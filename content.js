@@ -35,45 +35,10 @@ $(document).ready(function () {
                     if (isBetting) {
                         if (bet_gameID == last_game.gameId) {
                             isBetting = false;
-                            
-                            switch (is_bull_or_bear) {
-                                case "Bear":
-                                    if (last_game.crash < 200) {
-                                        console.log ("RED Bear: win");
-                                        chrome.runtime.sendMessage('', {
-                                            type: 'notification',
-                                            message: "RED Bear: win"
-                                        });
-                                        
-                                    } else {
-                                        console.log ("RED Bear: lose");
-                                        chrome.runtime.sendMessage('', {
-                                            type: 'notification',
-                                            message: "RED Bear: lose"
-                                        });
-                                    }
-                                    break;
-                                case "Bull":
-                                    if (last_game.crash >= 200) {
-                                        console.log ("Green Bull: win");
-                                        chrome.runtime.sendMessage('', {
-                                            type: 'notification',
-                                            message: "Green Bull: win"
-                                        });
-                                    } else {
-                                        console.log ("Green Bull: lose");
-                                        chrome.runtime.sendMessage('', {
-                                            type: 'notification',
-                                            message: "Green Bull: lose"
-                                        });
-                                    }
-                                    break;
-                            }
-                            
+                            checkBet(bet_gameID, last_game);
                         }
                     }
                     if (isBetting == false && data.trenball_start_stop == true) {
-                        
                         onBet(data, crash.gameId);
                     }
                 }
@@ -97,6 +62,54 @@ $(document).ready(function () {
             default:
                 break;
         }
+    }
+
+    function checkBet(bet_gameID, last_game) {
+        const inputlist = document.getElementsByClassName("input-control");
+        console.log("inputlist.length", inputlist.length);
+        if (inputlist.length == 1) {
+            const trenball_amount = inputlist[0].getElementsByTagName("input");
+
+            var message = {
+                title: "",
+                text: "",
+                amount: trenball_amount[0].value,
+                isWin: false,
+                isRed: false
+            }
+            switch (is_bull_or_bear) {
+                case "Bear":
+                    message.isRed = true;
+                    message.title = "RED Bear";
+                    if (last_game.crash < 200) {
+                        console.log ("RED Bear: win");
+                        message.text = `${bet_gameID}: WIN`;
+                        message.isWin = true;
+                    } else {
+                        console.log ("RED Bear: lose");
+                        message.text = `${bet_gameID}: LOSE`;
+                        message.isWin = false;
+                    }
+                    break;
+                case "Bull":
+                    message.title = "Green Bull";
+                    if (last_game.crash >= 200) {
+                        console.log ("Green Bull: win");
+                        message.text = `${bet_gameID}: WIN`;
+                        message.isWin = true;
+                    } else {
+                        console.log ("Green Bull: lose");
+                        message.text = `${bet_gameID}: LOSE`;
+                        message.isWin = false;
+                    }
+                    break;
+            }
+            chrome.runtime.sendMessage('', {
+                type: 'notification',
+                message: message
+            });
+        }
+        
     }
 
     function onTrenballBet(bet_data, gameId) {
