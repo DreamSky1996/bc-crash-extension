@@ -6,10 +6,17 @@ const classicTab = document.getElementById('classic-tab');
 const trenballTab = document.getElementById('trenball-tab');
 const trenballAmount = document.getElementById('trenball-amount');
 const trenballApply = document.getElementById('trenball-apply');
+const trenball_random_bet = document.getElementById('trenball_random_bet');
+const trenball_random_round = document.getElementById('trenball_random_round');
 
 chrome.storage.local.get(['notifyCount'], data => {
 	let value = data.notifyCount || 0;
 	counter.innerHTML = value;
+});
+
+chrome.storage.local.get( ['trenball_amount'], data => {
+	let value = data.trenball_amount || 100;
+	trenballAmount.value = value;
 });
 
 chrome.storage.local.get(['bet_category'], data => {
@@ -81,11 +88,17 @@ trenballAmount.addEventListener('keypress', (event) => {
 
 	console.log(event.target.value);
 	chrome.storage.local.set({ 'trenball_amount': event.target.value });
-	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		chrome.tabs.sendMessage(tabs[0].id, {type:"trenball-amount", amount: event.target.value}, function(response){
-			console.log("trenball amount set", response);
-		});
-	});
+
+})
+
+trenball_random_bet.addEventListener('change', (event) => {
+	console.log(event.target.checked);
+	chrome.storage.local.set({ 'trenball_random_bet': event.target.checked });
+
+})
+trenball_random_round.addEventListener('change', (event) => {
+	console.log(event.target.checked);
+	chrome.storage.local.set({ 'trenball_random_round': event.target.checked });
 
 })
 
