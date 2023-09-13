@@ -1,30 +1,39 @@
 const text = document.getElementById('notify-text');
 const notify = document.getElementById('notify-button');
 const reset = document.getElementById('notify-reset');
-const trenball_round_count = document.getElementById('trenball-round-count');
-const trenball_total_earning = document.getElementById('trenball-total-earning');
+
 const classicTab = document.getElementById('classic-tab');
 const trenballTab = document.getElementById('trenball-tab');
-const trenball_random_bet = document.getElementById('trenball_random_bet');
-const trenball_random_round = document.getElementById('trenball_random_round');
-const trenball_start_stop = document.getElementById('trenball_start_stop');
 
 const trenball_bet_radio_box = document.getElementById('trenball-bet-radio-box');
 
-
+// Bet Result Options
+const trenball_round_count = document.getElementById('trenball-round-count');
+const trenball_total_earning = document.getElementById('trenball-total-earning');
+// Bet Options Elements 
+const trenball_random_bet = document.getElementById('trenball_random_bet');
+const trenball_random_round = document.getElementById('trenball_random_round');
+const trenball_start_stop = document.getElementById('trenball_start_stop');
+const trenball_red_bear = document.getElementById("red_bear");
+const trenball_green_bull = document.getElementById("green_bull");
 
 chrome.storage.local.get(null, data => {
-	if(data.bet_category == "classic") {
+	if (data.bet_category == "classic") {
 		clickTab(classicTab, "classic");
 	}
-	if(data.bet_category == "trenball") {
+	if (data.bet_category == "trenball") {
 		clickTab(trenballTab, "trenball");
 	}
-	trenball_start_stop.checked = data.trenball_start_stop|| false;
-	trenball_random_bet.checked = data.trenball_random_bet || true;
+	trenball_start_stop.checked = data.trenball_start_stop || false;
+	trenball_random_bet.checked = data.trenball_random_bet || false;
 	trenball_random_round.checked = data.trenball_random_round || false;
+	trenball_green_bull.checked = data.trenball_bet || false;
 	trenball_round_count.innerHTML = data.trenball_rount_count || 0;
 	trenball_total_earning.innerHTML = data.trenball_total_earning || 0;
+
+	if (trenball_random_bet.checked == false) {
+		trenball_bet_radio_box.style.display = 'flex';
+	}
 
 });
 
@@ -35,15 +44,15 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 		counter.innerHTML = value;
 	}
 	if (changes.bet_category) {
-		if(changes.bet_category.newValue == "classic") {
+		if (changes.bet_category.newValue == "classic") {
 			clickTab(classicTab, "classic");
 		}
-		if(changes.bet_category.newValue == "trenball") {
+		if (changes.bet_category.newValue == "trenball") {
 			clickTab(trenballTab, "trenball");
 		}
 
-		
-		
+
+
 	}
 });
 
@@ -56,8 +65,8 @@ classicTab.addEventListener('click', () => {
 	console.log("classic tab click");
 	clickTab(classicTab, "classic");
 	chrome.storage.local.set({ 'bet_category': 'classic' });
-	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		chrome.tabs.sendMessage(tabs[0].id, {type:"classic"}, function(response){
+	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+		chrome.tabs.sendMessage(tabs[0].id, { type: "classic" }, function (response) {
 			console.log("trenball tab click", response);
 		});
 	});
@@ -67,12 +76,12 @@ trenballTab.addEventListener('click', () => {
 	console.log("trenball tab click");
 	clickTab(trenballTab, "trenball");
 	chrome.storage.local.set({ 'bet_category': 'trenball' });
-	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		chrome.tabs.sendMessage(tabs[0].id, {type:"trenball"}, function(response){
+	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+		chrome.tabs.sendMessage(tabs[0].id, { type: "trenball" }, function (response) {
 			console.log("trenball tab click", response);
 		});
 	});
-	
+
 });
 
 trenball_random_bet.addEventListener('change', (event) => {
@@ -83,7 +92,16 @@ trenball_random_bet.addEventListener('change', (event) => {
 		trenball_bet_radio_box.style.display = 'flex';
 	}
 	chrome.storage.local.set({ 'trenball_random_bet': event.target.checked });
+})
+trenball_red_bear.addEventListener('change', (event) => {
+	console.log(event.target.checked);
+	chrome.storage.local.set({ 'trenball_bet': event.target.checked ? 0 : 1 });
+})
 
+
+trenball_green_bull.addEventListener('change', (event) => {
+	console.log(event.target.checked);
+	chrome.storage.local.set({ 'trenball_bet': event.target.checked ? 1 : 0 });
 })
 
 trenball_random_round.addEventListener('change', (event) => {

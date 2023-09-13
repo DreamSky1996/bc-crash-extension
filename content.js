@@ -6,7 +6,7 @@ s.onload = function () {
 };
 (document.head || document.documentElement).appendChild(s);
 
-var isBetting = false, bet_gameID, is_bull_or_bear;
+var isBetting = false, bet_gameID = 0, is_bull_or_bear, stop_bet_rounds = 0;
 $(document).ready(function () {
     init();
 
@@ -40,6 +40,9 @@ $(document).ready(function () {
                     }
                     if (isBetting == false && data.trenball_start_stop == true) {
                         onBet(data, crash.gameId);
+                    }
+                    if (data.trenball_start_stop == false) {
+                        bet_gameID = 0;
                     }
                 }
             });
@@ -82,11 +85,11 @@ $(document).ready(function () {
                     message.isRed = true;
                     message.title = "RED Bear";
                     if (last_game.crash < 200) {
-                        console.log ("RED Bear: win");
+                        console.log("RED Bear: win");
                         message.text = `${bet_gameID}: WIN`;
                         message.isWin = true;
                     } else {
-                        console.log ("RED Bear: lose");
+                        console.log("RED Bear: lose");
                         message.text = `${bet_gameID}: LOSE`;
                         message.isWin = false;
                     }
@@ -94,11 +97,11 @@ $(document).ready(function () {
                 case "Bull":
                     message.title = "Green Bull";
                     if (last_game.crash >= 200) {
-                        console.log ("Green Bull: win");
+                        console.log("Green Bull: win");
                         message.text = `${bet_gameID}: WIN`;
                         message.isWin = true;
                     } else {
-                        console.log ("Green Bull: lose");
+                        console.log("Green Bull: lose");
                         message.text = `${bet_gameID}: LOSE`;
                         message.isWin = false;
                     }
@@ -109,7 +112,7 @@ $(document).ready(function () {
                 message: message
             });
         }
-        
+
     }
 
     function onTrenballBet(bet_data, gameId) {
@@ -118,6 +121,20 @@ $(document).ready(function () {
             const trenball_amount_ctl_btns = inputlist[0].getElementsByTagName("button");
             console.log(trenball_amount_ctl_btns.length);
         }
+
+        if (bet_data.trenball_random_round == false) {
+            doingBet(bet_data, gameId);
+            stop_bet_rounds = 0
+        } else {
+            if (bet_gameID == 0 || (bet_gameID + stop_bet_rounds == gameId) || stop_bet_rounds == 0) {
+                doingBet(bet_data, gameId);
+                stop_bet_rounds = Math.round(Math.random() * 3);
+                console.log("stop_bet_rounds", stop_bet_rounds);
+            }
+        }
+    }
+
+    function doingBet(bet_data, gameId) {
         const bet_items = document.getElementsByClassName("bet-item");
         if (bet_data.trenball_random_bet) {
             var index = Math.round(Math.random());
@@ -132,16 +149,14 @@ $(document).ready(function () {
             bet_btn[0].click();
             bet_gameID = gameId + 1;
             console.log(bet_gameID);
-            isBetting = true;
         } else {
-            is_bull_or_bear = "Bear";
-            const bet_btn = bet_items[0].getElementsByTagName("button")
+            is_bull_or_bear = bet_data.trenball_bet == 0 ? "Bear" : "Bull";
+            const bet_btn = bet_items[bet_data.trenball_bet].getElementsByTagName("button")
             bet_btn[0].click();
             bet_gameID = gameId + 1;
             console.log(bet_gameID);
-            isBetting = true;
         }
-
+        isBetting = true;
     }
 
     function onClassicBet(bet_data) {
@@ -191,7 +206,7 @@ $(document).ready(function () {
             }
         }
     }
-    
+
 });
 
 
