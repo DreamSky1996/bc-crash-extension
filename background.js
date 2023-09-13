@@ -5,23 +5,23 @@ chrome.runtime.onMessage.addListener( data => {
 });
 
 const notify = message => {
-	chrome.storage.local.get( ['round_count'], data => {
-		let value = data.round_count || 0;
-		chrome.storage.local.set({ 'round_count': Number( value ) + 1 });
+	chrome.storage.local.get( ['trenball_rount_count'], data => {
+		let value = data.trenball_rount_count || 0;
+		chrome.storage.local.set({ 'trenball_rount_count': Number( value ) + 1 });
 	} );
-	chrome.storage.local.get( ['total_earning'], data => {
-		let total_earning = data.total_earning || 0;
+	chrome.storage.local.get( ['trenball_total_earning'], data => {
+		let trenball_total_earning = data.trenball_total_earning || 0;
 		if (message.isWin) {
 			if(message.isRed) {
-				total_earning = total_earning + parseFloat(message.amount)*0.96;
+				trenball_total_earning = trenball_total_earning + parseFloat(message.amount)*0.96;
 			} else {
-				total_earning = total_earning + parseFloat(message.amount);
+				trenball_total_earning = trenball_total_earning + parseFloat(message.amount);
 			}
 		} else {
-			total_earning = total_earning - parseFloat(message.amount);
+			trenball_total_earning = trenball_total_earning - parseFloat(message.amount);
 		}
 		
-		chrome.storage.local.set({ 'total_earning': total_earning});
+		chrome.storage.local.set({ 'trenball_total_earning': trenball_total_earning});
 	} );
 	return chrome.notifications.create(
 		'',

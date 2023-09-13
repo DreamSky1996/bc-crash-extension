@@ -1,8 +1,8 @@
 const text = document.getElementById('notify-text');
 const notify = document.getElementById('notify-button');
 const reset = document.getElementById('notify-reset');
-const rount_count = document.getElementById('round-count');
-const total_earning = document.getElementById('total-earning');
+const trenball_round_count = document.getElementById('trenball-round-count');
+const trenball_total_earning = document.getElementById('trenball-total-earning');
 const classicTab = document.getElementById('classic-tab');
 const trenballTab = document.getElementById('trenball-tab');
 const trenball_random_bet = document.getElementById('trenball_random_bet');
@@ -21,8 +21,8 @@ chrome.storage.local.get(null, data => {
 	trenball_start_stop.checked = data.trenball_start_stop|| false;
 	trenball_random_bet.checked = data.trenball_random_bet || true;
 	trenball_random_round.checked = data.trenball_random_round || false;
-	rount_count.innerHTML = data.round_count || 0;
-	total_earning.innerHTML = data.total_earning || 0;
+	trenball_round_count.innerHTML = data.trenball_rount_count || 0;
+	trenball_total_earning.innerHTML = data.trenball_total_earning || 0;
 
 });
 

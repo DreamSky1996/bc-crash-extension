@@ -6,10 +6,7 @@
 </head>
 
 <body>
-	<div>
-		<h3>Rounds: <span id="round-count"></span></h3>
-		<h3>Total Earning: <span id="total-earning"></span></h3>
-	</div>
+
 	<div class="tab">
 		<button class="tablinks" id="classic-tab">Classic</button>
 		<button class="tablinks" id="trenball-tab">Trenball</button>
@@ -37,30 +34,42 @@
 		</div>
 	</div>
 	<div id="trenball" class="tabcontent">
-		<div style="padding: 5px;">
+
+		<div style="padding: 0px 10px;
+					border-style: solid;
+					border-radius: 5px;
+					border-width: 1px;
+					border-color: #9E9E9E;">
+			<h3>Rounds: <span id="trenball-round-count"></span></h3>
+			<h3>Total Earning: <span id="trenball-total-earning"></span></h3>
+		</div>
+		<div style="margin-top: 10px;
+					padding:10px 10px 0px 10px;
+					border-style: solid;
+					border-radius: 5px;
+					border-width: 1px;
+					border-color: #9E9E9E;">
 			<div style="display: flex; justify-content: space-between;">
-				<p>Start/Stop</p>
+				<h3>Start / Stop</h3>
 				<label class="switch">
 					<input id="trenball_start_stop" type="checkbox" checked>
 					<span class="slider"></span>
 				</label>
 			</div>
 			<div style="display: flex; justify-content: space-between;">
-				<p>Random Bet</p>
+				<h3>Random Bet</h3>
 				<label class="switch">
 					<input id="trenball_random_bet" type="checkbox" checked>
 					<span class="slider"></span>
 				</label>
 			</div>
-			
 			<div style="display: flex; justify-content: space-between;">
-				<p>Random Round</p>
+				<h3>Random Round</h3>
 				<label class="switch">
 					<input id="trenball_random_round" type="checkbox">
 					<span class="slider round"></span>
 				</label>
 			</div>
-			
 		</div>
 	</div>
 
