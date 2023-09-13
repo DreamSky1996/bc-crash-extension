@@ -10,6 +10,7 @@ const trenball_bet_radio_box = document.getElementById('trenball-bet-radio-box')
 // Bet Result Options
 const trenball_round_count = document.getElementById('trenball-round-count');
 const trenball_total_earning = document.getElementById('trenball-total-earning');
+const bet_history_table = document.getElementById('history-table');
 // Bet Options Elements 
 const trenball_random_bet = document.getElementById('trenball_random_bet');
 const trenball_random_round = document.getElementById('trenball_random_round');
@@ -30,7 +31,7 @@ chrome.storage.local.get(null, data => {
 	trenball_green_bull.checked = data.trenball_bet || false;
 	trenball_round_count.innerHTML = data.trenball_rount_count || 0;
 	trenball_total_earning.innerHTML = data.trenball_total_earning || 0;
-
+	loadBetHistory(data.bet_history||"[]");
 	if (trenball_random_bet.checked == false) {
 		trenball_bet_radio_box.style.display = 'flex';
 	}
@@ -50,9 +51,18 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 		if (changes.bet_category.newValue == "trenball") {
 			clickTab(trenballTab, "trenball");
 		}
-
-
-
+	}
+	if (changes.trenball_rount_count) {
+		let value = changes.trenball_rount_count.newValue || 0;
+		trenball_round_count.innerHTML = value;
+	}
+	if (changes.trenball_total_earning) {
+		let value = changes.trenball_total_earning.newValue || 0;
+		trenball_total_earning.innerHTML = value;
+	}
+	if (changes.bet_history) {
+		let value = changes.bet_history.newValue || "[]";
+		loadBetHistory(value);
 	}
 });
 
@@ -93,11 +103,11 @@ trenball_random_bet.addEventListener('change', (event) => {
 	}
 	chrome.storage.local.set({ 'trenball_random_bet': event.target.checked });
 })
+
 trenball_red_bear.addEventListener('change', (event) => {
 	console.log(event.target.checked);
 	chrome.storage.local.set({ 'trenball_bet': event.target.checked ? 0 : 1 });
 })
-
 
 trenball_green_bull.addEventListener('change', (event) => {
 	console.log(event.target.checked);
@@ -134,5 +144,30 @@ function clickTab(tabBtn, tabsName) {
 	}
 	document.getElementById(tabsName).style.display = "block";
 	tabBtn.className += " active";
+}
+
+function loadBetHistory(bet_history) {
+	let innerHTML = `<tr>
+						<th>GameID</th>
+						<th>Result</th>
+						<th>BEAR / BULL</th>
+						<th>Amount</th>
+					</tr>`;
+	if(bet_history) {
+		let data = JSON.parse(bet_history);
+		if(data.length > 0) {
+			for (var i = data.length - 1; i >= 0; i--) {
+				console.log(data[i]);
+				innerHTML += `<tr>
+							<td class="${data[i].isWin?"green":"red"}">${data[i].gameID}</td>
+							<td class="${data[i].isWin?"green":"red"}">${data[i].isWin?"WIN":"LOSE"}</td>
+							<td class="${data[i].isRed?"red":"green"}">${data[i].isRed?"Red Bear":"Green Bull"}</td>
+							<td>${data[i].amount}</td>
+						</tr>`;
+			}
+			
+		}
+	}
+	bet_history_table.innerHTML = innerHTML;
 }
 

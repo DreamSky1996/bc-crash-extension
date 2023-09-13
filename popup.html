@@ -18,7 +18,7 @@
 			</div>
 			<div id="notify-containers">
 				<div class="notify-form">
-					<label for="text">Notification</label>
+					<label for="notify-text">Notification</label>
 					<textarea name="text" id="notify-text" placeholder="Let's notify!"></textarea>
 				</div>
 				<div class=notify-buttons>
@@ -34,51 +34,59 @@
 		</div>
 	</div>
 	<div id="trenball" class="tabcontent">
-
-		<div style="padding: 0px 10px;
+		<div style="display: flex;">
+			<div style="width: 280px;">
+				<div style="padding: 0px 10px;
 					border-style: solid;
 					border-radius: 5px;
 					border-width: 1px;
 					border-color: #9E9E9E;">
-			<h3>Rounds: <span id="trenball-round-count"></span></h3>
-			<h3>Total Earning: <span id="trenball-total-earning"></span></h3>
-		</div>
-		<div style="margin-top: 10px;
+					<h3>Rounds: <span id="trenball-round-count"></span></h3>
+					<h3>Total Earning: <span id="trenball-total-earning"></span></h3>
+				</div>
+				<div style="margin-top: 10px;
 					padding:10px 10px 0px 10px;
 					border-style: solid;
 					border-radius: 5px;
 					border-width: 1px;
 					border-color: #9E9E9E;">
-			<div style="display: flex; justify-content: space-between;">
-				<h3>Start / Stop</h3>
-				<label class="switch" style="align-self: center;">
-					<input id="trenball_start_stop" type="checkbox" checked>
-					<span class="slider"></span>
-				</label>
-			</div>
-			<div style="display: flex; justify-content: space-between;">
-				<h3>Random Bet</h3>
-				<label class="switch" style="align-self: center;">
-					<input id="trenball_random_bet" type="checkbox" checked>
-					<span class="slider"></span>
-				</label>
-			</div>
-			<div class="trenball-bet-radio-box" id="trenball-bet-radio-box">
-				<div>
-					<input type="radio" id="red_bear" name="trenball-bear-bull" value="RED" checked>
-					<label for="RED">Red Bear</label>
+					<div style="display: flex; justify-content: space-between;">
+						<h3>Start / Stop</h3>
+						<label class="switch" style="align-self: center;">
+							<input id="trenball_start_stop" type="checkbox" checked>
+							<span class="slider"></span>
+						</label>
+					</div>
+					<div style="display: flex; justify-content: space-between;">
+						<h3>Random Bet</h3>
+						<label class="switch" style="align-self: center;">
+							<input id="trenball_random_bet" type="checkbox" checked>
+							<span class="slider"></span>
+						</label>
+					</div>
+					<div class="trenball-bet-radio-box" id="trenball-bet-radio-box">
+						<div>
+							<input type="radio" id="red_bear" name="trenball-bear-bull" value="RED" checked>
+							<label for="red_bear">Red Bear</label>
+						</div>
+						<div>
+							<input type="radio" id="green_bull" name="trenball-bear-bull" value="GREEN">
+							<label for="green_bull">Green Bull</label>
+						</div>
+					</div>
+					<div style="display: flex; justify-content: space-between;">
+						<h3>Random Round</h3>
+						<label class="switch" style="align-self: center;">
+							<input id="trenball_random_round" type="checkbox">
+							<span class="slider round"></span>
+						</label>
+					</div>
 				</div>
-				<div>
-					<input type="radio" id="green_bull" name="trenball-bear-bull" value="GREEN">
-					<label for="GREEN">Green Bull</label>
-				</div>
 			</div>
-			<div style="display: flex; justify-content: space-between;">
-				<h3>Random Round</h3>
-				<label class="switch" style="align-self: center;">
-					<input id="trenball_random_round" type="checkbox">
-					<span class="slider round"></span>
-				</label>
+			<div style="padding-left: 10px; height: 350px;overflow: auto;">
+				<table id="history-table">
+				</table>
+
 			</div>
 		</div>
 	</div>

@@ -1,5 +1,5 @@
 body {
-  width: 300px;
+  width: 600px;
 }
 
 #notify-wrapper {
@@ -178,3 +178,24 @@ input:checked+.slider:before {
   border-color: #9E9E9E;
 }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.red {
+  color: rgba(254, 65, 2, 0.843);
+}
+.green {
+  color: rgba(73, 132, 6, 0.881);
+}

@@ -86,11 +86,11 @@ $(document).ready(function () {
                     message.title = "RED Bear";
                     if (last_game.crash < 200) {
                         console.log("RED Bear: win");
-                        message.text = `${bet_gameID}: WIN`;
+                        message.text = `${bet_gameID}`;
                         message.isWin = true;
                     } else {
                         console.log("RED Bear: lose");
-                        message.text = `${bet_gameID}: LOSE`;
+                        message.text = `${bet_gameID}`;
                         message.isWin = false;
                     }
                     break;
@@ -98,11 +98,11 @@ $(document).ready(function () {
                     message.title = "Green Bull";
                     if (last_game.crash >= 200) {
                         console.log("Green Bull: win");
-                        message.text = `${bet_gameID}: WIN`;
+                        message.text = `${bet_gameID}`;
                         message.isWin = true;
                     } else {
                         console.log("Green Bull: lose");
-                        message.text = `${bet_gameID}: LOSE`;
+                        message.text = `${bet_gameID}`;
                         message.isWin = false;
                     }
                     break;
