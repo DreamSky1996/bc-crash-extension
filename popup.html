@@ -51,21 +51,31 @@
 					border-color: #9E9E9E;">
 			<div style="display: flex; justify-content: space-between;">
 				<h3>Start / Stop</h3>
-				<label class="switch">
+				<label class="switch" style="align-self: center;">
 					<input id="trenball_start_stop" type="checkbox" checked>
 					<span class="slider"></span>
 				</label>
 			</div>
 			<div style="display: flex; justify-content: space-between;">
 				<h3>Random Bet</h3>
-				<label class="switch">
+				<label class="switch" style="align-self: center;">
 					<input id="trenball_random_bet" type="checkbox" checked>
 					<span class="slider"></span>
 				</label>
 			</div>
+			<div class="trenball-bet-radio-box" id="trenball-bet-radio-box">
+				<div>
+					<input type="radio" id="red_bear" name="trenball-bear-bull" value="RED" checked>
+					<label for="RED">Red Bear</label>
+				</div>
+				<div>
+					<input type="radio" id="red_bull" name="trenball-bear-bull" value="GREEN">
+					<label for="GREEN">Green Bull</label>
+				</div>
+			</div>
 			<div style="display: flex; justify-content: space-between;">
 				<h3>Random Round</h3>
-				<label class="switch">
+				<label class="switch" style="align-self: center;">
 					<input id="trenball_random_round" type="checkbox">
 					<span class="slider round"></span>
 				</label>

@@ -9,6 +9,8 @@ const trenball_random_bet = document.getElementById('trenball_random_bet');
 const trenball_random_round = document.getElementById('trenball_random_round');
 const trenball_start_stop = document.getElementById('trenball_start_stop');
 
+const trenball_bet_radio_box = document.getElementById('trenball-bet-radio-box');
+
 
 
 chrome.storage.local.get(null, data => {
@@ -75,9 +77,15 @@ trenballTab.addEventListener('click', () => {
 
 trenball_random_bet.addEventListener('change', (event) => {
 	console.log(event.target.checked);
+	if (event.target.checked) {
+		trenball_bet_radio_box.style.display = 'none';
+	} else {
+		trenball_bet_radio_box.style.display = 'flex';
+	}
 	chrome.storage.local.set({ 'trenball_random_bet': event.target.checked });
 
 })
+
 trenball_random_round.addEventListener('change', (event) => {
 	console.log(event.target.checked);
 	chrome.storage.local.set({ 'trenball_random_round': event.target.checked });
