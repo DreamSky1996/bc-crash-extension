@@ -119,7 +119,7 @@ $(document).ready(function () {
                 }
                 continue_lose_count = 0
             } else {
-                if(continue_lose_count > 4) {
+                if(continue_lose_count > 2) {
                     for (let i = 0; i < continue_lose_count; i++) {
                         halfAmount();
                         await delay(100);
