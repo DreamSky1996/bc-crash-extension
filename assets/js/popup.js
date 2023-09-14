@@ -18,6 +18,8 @@ const trenball_start_stop = document.getElementById('trenball_start_stop');
 const trenball_red_bear = document.getElementById("red_bear");
 const trenball_green_bull = document.getElementById("green_bull");
 
+const trenball_reset_btn = document.getElementById("trenball-reset-btn");
+
 chrome.storage.local.get(null, data => {
 	if (data.bet_category == "classic") {
 		clickTab(classicTab, "classic");
@@ -31,7 +33,7 @@ chrome.storage.local.get(null, data => {
 	trenball_green_bull.checked = data.trenball_bet || false;
 	trenball_round_count.innerHTML = data.trenball_rount_count || 0;
 	trenball_total_earning.innerHTML = data.trenball_total_earning || 0;
-	loadBetHistory(data.bet_history||"[]");
+	loadBetHistory(data.bet_history || "[]");
 	if (trenball_random_bet.checked == false) {
 		trenball_bet_radio_box.style.display = 'flex';
 	}
@@ -67,6 +69,21 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 });
 
 reset.addEventListener('click', () => {
+	chrome.storage.local.clear();
+	text.value = '';
+	chrome.storage.local.set({ 
+		'trenball_rount_count': 0,
+		'trenball_total_earning': 0,
+		'trenball_start_stop': false,
+		'trenball_random_bet': false,
+		'trenball_random_round': false,
+		'trenball_bet': false,
+		'bet_history': "[]",
+		"bet_category": "trenball"
+	});
+});
+
+trenball_reset_btn.addEventListener('click', () => {
 	chrome.storage.local.clear();
 	text.value = '';
 });
@@ -153,19 +170,19 @@ function loadBetHistory(bet_history) {
 						<th>BEAR / BULL</th>
 						<th>Amount</th>
 					</tr>`;
-	if(bet_history) {
+	if (bet_history) {
 		let data = JSON.parse(bet_history);
-		if(data.length > 0) {
+		if (data.length > 0) {
 			for (var i = data.length - 1; i >= 0; i--) {
 				console.log(data[i]);
 				innerHTML += `<tr>
-							<td class="${data[i].isWin?"green":"red"}">${data[i].gameID}</td>
-							<td class="${data[i].isWin?"green":"red"}">${data[i].isWin?"WIN":"LOSE"}</td>
-							<td class="${data[i].isRed?"red":"green"}">${data[i].isRed?"Red Bear":"Green Bull"}</td>
+							<td class="${data[i].isWin ? "green" : "red"}">${data[i].gameID}</td>
+							<td class="${data[i].isWin ? "green" : "red"}">${data[i].isWin ? "WIN" : "LOSE"}</td>
+							<td class="${data[i].isRed ? "red" : "green"}">${data[i].isRed ? "Red Bear" : "Green Bull"}</td>
 							<td>${data[i].amount}</td>
 						</tr>`;
 			}
-			
+
 		}
 	}
 	bet_history_table.innerHTML = innerHTML;
