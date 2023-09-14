@@ -6,7 +6,7 @@ s.onload = function () {
 };
 (document.head || document.documentElement).appendChild(s);
 
-var isBetting = false, bet_gameID = 0, is_bull_or_bear, stop_bet_rounds = 0, continue_lose_count = 0;
+var isBetting = false, bet_gameID = 0, is_bull_or_bear = "Bull", stop_bet_rounds = 0, continue_lose_count = 0;
 $(document).ready(function () {
     init();
 
@@ -120,11 +120,12 @@ $(document).ready(function () {
                 continue_lose_count = 0
             } else {
                 if(continue_lose_count > 2) {
-                    for (let i = 0; i < continue_lose_count; i++) {
-                        halfAmount();
-                        await delay(100);
-                    }
-                    continue_lose_count = 0
+                    // for (let i = 0; i < continue_lose_count; i++) {
+                    //     halfAmount();
+                    //     await delay(100);
+                    // }
+                    // continue_lose_count = 0
+                    chrome.storage.local.set({ 'trenball_start_stop': false });
                 } else {
                     doubleAmount();
                     await delay(100);
@@ -166,8 +167,8 @@ $(document).ready(function () {
             bet_gameID = gameId + 1;
             console.log(bet_gameID);
         } else {
-            is_bull_or_bear = bet_data.trenball_bet == 0 ? "Bear" : "Bull";
-            const bet_btn = bet_items[bet_data.trenball_bet].getElementsByTagName("button")
+            is_bull_or_bear = (is_bull_or_bear == "Bull" ? "Bear" : "Bull");
+            const bet_btn = bet_items[(is_bull_or_bear == "Bear" ? 0 : 1)].getElementsByTagName("button")
             bet_btn[0].click();
             bet_gameID = gameId + 1;
             console.log(bet_gameID);
