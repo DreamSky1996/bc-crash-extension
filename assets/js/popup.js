@@ -30,7 +30,7 @@ chrome.storage.local.get(null, data => {
 	trenball_start_stop.checked = data.trenball_start_stop || false;
 	trenball_random_bet.checked = data.trenball_random_bet || false;
 	trenball_random_round.checked = data.trenball_random_round || false;
-	trenball_green_bull.checked = data.trenball_bet || false;
+	trenball_green_bull.checked = data.trenball_bet || 0;
 	trenball_round_count.innerHTML = data.trenball_rount_count || 0;
 	trenball_total_earning.innerHTML = data.trenball_total_earning || 0;
 	loadBetHistory(data.bet_history || "[]");
@@ -68,7 +68,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 	}
 });
 
-reset.addEventListener('click', () => {
+trenball_reset_btn.addEventListener('click', () => {
 	chrome.storage.local.clear();
 	text.value = '';
 	chrome.storage.local.set({ 
@@ -77,13 +77,13 @@ reset.addEventListener('click', () => {
 		'trenball_start_stop': false,
 		'trenball_random_bet': false,
 		'trenball_random_round': false,
-		'trenball_bet': false,
+		'trenball_bet': 0,
 		'bet_history': "[]",
 		"bet_category": "trenball"
 	});
 });
 
-trenball_reset_btn.addEventListener('click', () => {
+reset.addEventListener('click', () => {
 	chrome.storage.local.clear();
 	text.value = '';
 });

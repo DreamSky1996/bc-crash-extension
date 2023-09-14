@@ -6,7 +6,7 @@ s.onload = function () {
 };
 (document.head || document.documentElement).appendChild(s);
 
-var isBetting = false, bet_gameID = 0, is_bull_or_bear, stop_bet_rounds = 0;
+var isBetting = false, bet_gameID = 0, is_bull_or_bear, stop_bet_rounds = 0, continue_lose_count = 0;
 $(document).ready(function () {
     init();
 
@@ -67,7 +67,7 @@ $(document).ready(function () {
         }
     }
 
-    function checkBet(bet_gameID, last_game) {
+    async function checkBet(bet_gameID, last_game) {
         const inputlist = document.getElementsByClassName("input-control");
         console.log("inputlist.length", inputlist.length);
         if (inputlist.length == 1) {
@@ -107,20 +107,37 @@ $(document).ready(function () {
                     }
                     break;
             }
+            
             chrome.runtime.sendMessage('', {
                 type: 'notification',
                 message: message
             });
+            if(message.isWin) {
+                for (let i = 0; i < continue_lose_count; i++) {
+                    halfAmount();
+                    await delay(100);
+                }
+                continue_lose_count = 0
+            } else {
+                if(continue_lose_count > 4) {
+                    for (let i = 0; i < continue_lose_count; i++) {
+                        halfAmount();
+                        await delay(100);
+                    }
+                    continue_lose_count = 0
+                } else {
+                    doubleAmount();
+                    continue_lose_count += 1;
+                }
+                
+            }
         }
 
     }
 
     function onTrenballBet(bet_data, gameId) {
-        const inputlist = document.getElementsByClassName("game-area-group-buttons");
-        if (inputlist.length == 1) {
-            const trenball_amount_ctl_btns = inputlist[0].getElementsByTagName("button");
-            console.log(trenball_amount_ctl_btns.length);
-        }
+        
+        
 
         if (bet_data.trenball_random_round == false) {
             doingBet(bet_data, gameId);
@@ -205,6 +222,27 @@ $(document).ready(function () {
                 }
             }
         }
+    }
+
+    function doubleAmount() {
+        const inputlist = document.getElementsByClassName("game-area-group-buttons");
+        if (inputlist.length == 1) {
+            const trenball_amount_ctl_btns = inputlist[0].getElementsByTagName("button");
+            trenball_amount_ctl_btns[1].click();
+        }
+
+    }
+
+    function halfAmount() {
+        const inputlist = document.getElementsByClassName("game-area-group-buttons");
+        if (inputlist.length == 1) {
+            const trenball_amount_ctl_btns = inputlist[0].getElementsByTagName("button");
+            trenball_amount_ctl_btns[0].click();
+        }
+    }
+
+    function delay(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
     }
 
 });
