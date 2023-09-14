@@ -13,12 +13,12 @@ const notify = message => {
 		let trenball_total_earning = data.trenball_total_earning || 0;
 		if (message.isWin) {
 			if (message.isRed) {
-				trenball_total_earning = trenball_total_earning + parseFloat(message.amount) * 0.96;
+				trenball_total_earning = parseFloat(trenball_total_earning) + (parseFloat(message.amount) * 0.96);
 			} else {
-				trenball_total_earning = trenball_total_earning + parseFloat(message.amount);
+				trenball_total_earning = parseFloat(trenball_total_earning) + parseFloat(message.amount);
 			}
 		} else {
-			trenball_total_earning = trenball_total_earning - parseFloat(message.amount);
+			trenball_total_earning = parseFloat(trenball_total_earning) - parseFloat(message.amount);
 		}
 
 		chrome.storage.local.set({ 'trenball_total_earning': trenball_total_earning });
