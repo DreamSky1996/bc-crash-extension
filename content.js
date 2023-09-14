@@ -137,8 +137,6 @@ $(document).ready(function () {
     }
 
     function onTrenballBet(bet_data, gameId) {
-        
-        
 
         if (bet_data.trenball_random_round == false) {
             doingBet(bet_data, gameId);
