@@ -127,6 +127,7 @@ $(document).ready(function () {
                     continue_lose_count = 0
                 } else {
                     doubleAmount();
+                    await delay(100);
                     continue_lose_count += 1;
                 }
                 
